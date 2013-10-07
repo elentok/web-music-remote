@@ -1,0 +1,37 @@
+#!/bin/bash
+
+DIR=$(cd $(dirname ${BASH_SOURCE[0]-$0}); pwd)
+FOREVER="$DIR/node_modules/.bin/forever"
+PORT=8123
+
+
+status() {
+  if [ "$($FOREVER list | grep server.coffee)" == "" ]; then
+    echo "Off"
+  else
+    echo "On"
+  fi
+}
+
+case "$1" in
+  "start")
+    echo "Starting server..."
+    $FOREVER start -a -c coffee -o /tmp/web-remote-stdout -e /tmp/web-remote-stderr -l /tmp/web-remote-log server.coffee 
+    ;;
+  "stop")
+    echo "Stopping server..."
+    $FOREVER stop server.coffee
+    ;;
+  "status")
+    status
+    ;;
+  "play")
+    echo curl "http://127.0.0.1:$PORT/play"
+    curl "http://127.0.0.1:$PORT/play"
+    ;;
+  "*")
+    echo "Usage:"
+    echo ""
+    echo "  remote (start|stop|status)"
+    ;;
+esac 
