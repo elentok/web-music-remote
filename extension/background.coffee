@@ -13,14 +13,15 @@ init = ->
   console.debug "Web Music Remote initialized"
 
 runOnGooglePlay = (code) ->
-  chrome.tabs.query {title:"*Google Play"}, (tabs) ->
+  chrome.tabs.query {url:"*://play.google.com/music*"}, (tabs) ->
     if tabs && tabs.length > 0
       console.debug "Found #{tabs.length} google play tabs"
       tabId = tabs[0].id
       chrome.tabs.executeScript(tabId, code: code)
 
 clickOnGooglePlayButton = (id) ->
-  code = "console.log('clicking on #{id}'); document.querySelector(\"button[data-id='#{id}']\").click()"
+  code = "console.log('clicking on #{id}'); " +
+    "document.querySelector(\"button[data-id='#{id}']\").click()"
   runOnGooglePlay(code)
 
 commands =

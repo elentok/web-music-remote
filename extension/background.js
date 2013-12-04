@@ -20,7 +20,7 @@
 
   runOnGooglePlay = function(code) {
     return chrome.tabs.query({
-      title: "*Google Play"
+      url: "*://play.google.com/music*"
     }, function(tabs) {
       var tabId;
 
@@ -37,7 +37,7 @@
   clickOnGooglePlayButton = function(id) {
     var code;
 
-    code = "console.log('clicking on " + id + "'); document.querySelector(\"button[data-id='" + id + "']\").click()";
+    code = ("console.log('clicking on " + id + "'); ") + ("document.querySelector(\"button[data-id='" + id + "']\").click()");
     return runOnGooglePlay(code);
   };
 
